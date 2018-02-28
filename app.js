@@ -6,16 +6,24 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
+const cors = require('cors');
 
 const auth = require('./routes/auth');
 
 const app = express();
+
+
 
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cors({
+  credentials: true,
+  origin: ['http://localhost:4200']
+}));
 
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/readalin', {

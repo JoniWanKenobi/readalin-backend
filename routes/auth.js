@@ -27,13 +27,13 @@ router.post('/login', (req, res, next) => {
   User.findOne({ username })
     .then((user) => {
       if (!user) {
-        return res.status(404).json({error: 'not-found'});
+        return res.status(404).json({error: 'user-not-found'});
       }
       if (bcrypt.compareSync(password, user.password)) {
         req.session.currentUser = user;
         return res.json(user);
       } else {
-        return res.status(404).json({error: 'not-found'});
+        return res.status(404).json({error: 'wrong-password'});
       }
     })
     .catch(next);
@@ -48,7 +48,7 @@ router.post('/signup', (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  if (!username || !password) {
+  if (!username || !email || !password) {
     return res.status(422).json({error: 'validation'});
   }
 
@@ -62,8 +62,8 @@ router.post('/signup', (req, res, next) => {
       const hashPass = bcrypt.hashSync(password, salt);
 
       const newUser = User({
-        username,
-        email,
+        username: username,
+        email: email,
         password: hashPass
       });
 
