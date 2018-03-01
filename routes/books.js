@@ -50,6 +50,7 @@ router.post('/', upload.single('uploadedFile'), function(req, res){
     .then((doc) => { 
       console.log('pdf loaded');
       console.log('DOC', doc);
+      res.json({text: doc});
     })
     .catch(err => console.log(err));
 
