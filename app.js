@@ -9,6 +9,7 @@ const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
 
 const auth = require('./routes/auth');
+const books = require('./routes/books');
 
 const app = express();
 
@@ -22,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:4200']
+  origin: ['http://localhost:4200']  
 }));
 
 mongoose.Promise = Promise;
@@ -50,6 +51,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/auth', auth);
+app.use('/books', books);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
