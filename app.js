@@ -13,8 +13,6 @@ const books = require('./routes/books');
 
 const app = express();
 
-
-
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,7 +21,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(cors({
   credentials: true,
-  origin: ['http://localhost:4200']  
+  origin: ['http://localhost:4200']
 }));
 
 mongoose.Promise = Promise;

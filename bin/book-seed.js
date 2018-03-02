@@ -27,13 +27,10 @@ const books = [
     title: 'The origin of species',
     author: 'Charles Darwin'
   }
-]
-
-
-
+];
 
 Book.remove()
-  .then(() => Book.create(books))
+  // .then(() => Book.create(books))
   .then(() => {
     console.log('books seed ok');
     mongoose.connection.close();
