@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const ObjectId = Schema.Types.ObjectId;
 
 const bookSchema = new Schema({
-  title: String,
-  author: String,
+  owner: {
+    type: ObjectId,
+    ref: 'User'
+  },
   path: String,
   originalName: String,
   data: Object

@@ -10,8 +10,9 @@ const upload = multer({ dest: './public/uploads/' });
 
 const sentimentClient = new GoogleSentimentClient();
 
-router.post('/', upload.single('uploadedFile'), function (req, res) {
+router.post('/book/:id', upload.single('uploadedFile'), function (req, res) {
   const newBook = new Book({
+    owner: req.params.id,
     path: `/uploads/${req.file.filename}`,
     originalName: req.file.originalname
   });
@@ -32,9 +33,20 @@ router.post('/', upload.single('uploadedFile'), function (req, res) {
     .catch(err => console.log('ERROR', err.response.data));
 });
 
-router.get('/', (req, res, next) => {
-  Book.find()
+router.get('/all/:id', (req, res, next) => {
+  const userId = req.params.id;
+  Book.find({owner: userId})
     .then((books) => res.json(books))
+    .catch(next);
+});
+
+router.get('/book/:id', (req, res, next) => {
+  const bookId = req.params.id;
+  Book.findOne({'_id': bookId})
+    .then((book) => {
+      console.log('book name: ', book.originalName);
+      res.json(book);
+    })
     .catch(next);
 });
 
